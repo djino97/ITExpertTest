@@ -1,4 +1,4 @@
--- Task 1, query 2
+-- Task 2, query 1
 SELECT 
     ClientName, 
 	(
