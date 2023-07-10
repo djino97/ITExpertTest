@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ITExpertTestService.Business\ITExpertTestService.Business.csproj" />
+    <ProjectReference Include="..\ITExpertTestService.Models.Dto\ITExpertTestService.Models.Dto.csproj" />
+    <ProjectReference Include="..\ITExpertTestService.Provider.Ef.MsSql\ITExpertTestService.Provider.Ef.MsSql.csproj" />
+  </ItemGroup>
+
+</Project>
