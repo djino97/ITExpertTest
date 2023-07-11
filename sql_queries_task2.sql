@@ -1,7 +1,7 @@
 -- Task 2, query 1
 SELECT 
     ClientName, 
-	(
+    (
       SELECT COUNT(*) 
       FROM ClientContacts 
       WHERE ClientContacts.ClientId = Clients.Id
