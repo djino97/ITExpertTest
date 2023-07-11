@@ -1,6 +1,6 @@
 # ITExpertTest
 
-ITExpertTes - rest api сервис Asp.net
+ITExpertTest - rest api сервис Asp.net
 
 it-expert-client - React client
 
