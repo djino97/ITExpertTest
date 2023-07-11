@@ -17,7 +17,7 @@ SELECT
 FROM
 (
   SELECT 
-    ClientId, count(ClientId) as cont_count
+    ClientId, COUNT(ClientId) AS cont_count
   FROM
     ClientContacts 
   GROUP BY
@@ -25,6 +25,6 @@ FROM
   HAVING COUNT(ClientId) > 2
   ORDER BY
     ClientId
-) as cont
-INNER JOIN Clients on cont.ClientId = Clients.Id;
+) AS cont
+INNER JOIN Clients ON cont.ClientId = Clients.Id;
 	
