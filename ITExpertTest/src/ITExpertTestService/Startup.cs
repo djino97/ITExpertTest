@@ -38,12 +38,6 @@ namespace ITExpertTest
                     {
                         builder
                             .WithOrigins(
-                            //    "https://*.ltdo.xyz",
-                            //    "http://*.ltdo.xyz",
-                            //    "http://ltdo.xyz",
-                            //    "http://ltdo.xyz:9802",
-                            //    "http://localhost:4200",
-                            //    "http://localhost:4500")
                             "http://localhost:3000")
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
@@ -58,18 +52,12 @@ namespace ITExpertTest
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ITExpertTest", Version = "v1" });
             });
 
-            string connStr = Environment.GetEnvironmentVariable("ConnectionString");
-            if (string.IsNullOrEmpty(connStr))
-            {
-                connStr = Configuration.GetConnectionString("SQLConnectionString");
-            }
-            else
-            {
-            }
+            string connStr = Configuration.GetConnectionString("SQLConnectionString");
+
             services.AddScoped<IDataProvider, ITExpertServiceDbContext>();
             services.AddTransient<IObjectRepository, ObjectRepository>();
-            services.AddTransient<IMapperCreateObjectRequest, MapperObjectRequest>();
-            services.AddTransient<IMapperFindObjectResponse, MapperObjectResponse>();
+            services.AddTransient<IMapperCreateObjectRequest, MapperCreateObjectRequest>();
+            services.AddTransient<IMapperFindObjectResponse, MapperFindObjectResponse>();
             services.AddTransient<ICreateObjectsCommand, CreateObjectsCommand>();
             services.AddTransient<IFindObjectsCommand, FindObjectsCommand>();
 

@@ -23,7 +23,7 @@ namespace ITExpertTest.Business.Commands
         {
             if (request.Objects == null || !request.Objects.Any())
             {
-                errors.Add("Request must contain at least one object");
+                errors.Add("Request must contain at least one object.");
                 _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
             }
         }

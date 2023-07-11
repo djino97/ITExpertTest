@@ -4,7 +4,7 @@ using ITExpertTestService.Models.Dto.Requests;
 
 namespace ITExpertTestService.Mappers
 {
-    public class MapperObjectRequest : IMapperCreateObjectRequest
+    public class MapperCreateObjectRequest : IMapperCreateObjectRequest
     {
         public DbObject Map(ObjectRequest objectInfo)
         {

@@ -60,8 +60,8 @@ namespace ITExpertTest.Business.Commands
                 return new OperationResultResponse<FindObjectResponse>(error: errors);
             }
 
+            IEnumerable<DbObject> dbObjects;
             FindObjectResponse findObjectResponse = new();
-            IEnumerable<DbObject> dbObjects = new List<DbObject>();
             try
             {
                 dbObjects = await _repository.FindAsync(filter, cancellationToken);
