@@ -53,7 +53,7 @@ namespace ITExpertTestService.Data.Repository
                 return null;
             }
 
-            IQueryable<DbObject> dbObjects = _provider.Objects.AsSingleQuery().AsQueryable();
+            IQueryable<DbObject> dbObjects = _provider.Objects.AsQueryable();
 
             if (filter.SerialNumber.HasValue)
             {

@@ -14,4 +14,4 @@ FROM (
 	  Id, Dt
 ) AS d
 WHERE
-  ed IS NOT NULL;
+  ed IS NOT NULL; 

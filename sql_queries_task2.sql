@@ -2,7 +2,7 @@
 SELECT 
     ClientName, 
 	(
-      SELECT count(*) 
+      SELECT COUNT(*) 
       FROM ClientContacts 
       WHERE ClientContacts.ClientId = Clients.Id
     ) AS cont_count
