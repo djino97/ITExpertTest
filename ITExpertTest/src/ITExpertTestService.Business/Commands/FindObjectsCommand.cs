@@ -6,6 +6,7 @@ using ITExpertTestService.Models.Db;
 using ITExpertTestService.Models.Dto;
 using ITExpertTestService.Models.Dto.Requests;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ITExpertTest.Business.Commands
 {
     public class FindObjectsCommand : IFindObjectsCommand
     {
+        private readonly ILogger<FindObjectsCommand> _logger;
         private readonly IMapperFindObjectResponse _mapper;
         private readonly IObjectRepository _repository;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -42,8 +44,10 @@ namespace ITExpertTest.Business.Commands
         public FindObjectsCommand(
             IObjectRepository repository,
             IMapperFindObjectResponse mapper,
+            ILogger<FindObjectsCommand> logger,
             IHttpContextAccessor httpContextAccessor)
         {
+            _logger = logger;
             _mapper = mapper;
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
@@ -69,6 +73,8 @@ namespace ITExpertTest.Business.Commands
             }
             catch (Exception exc)
             {
+                _logger.LogError( exc, "Exception message: {0}.", exc.Message);
+
                 errors.Add("Something went wrong. Please try again later.");
                 _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
                 return new OperationResultResponse<FindObjectResponse>(error: errors);

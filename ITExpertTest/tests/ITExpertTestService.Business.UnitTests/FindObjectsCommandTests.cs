@@ -7,6 +7,7 @@ using ITExpertTestService.Models.Db;
 using ITExpertTestService.Models.Dto;
 using ITExpertTestService.Models.Dto.Requests;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -21,6 +22,7 @@ namespace ITExpertTestService.Business.UnitTests
     {
         private Mock<IObjectRepository> _repository;
         private Mock<IMapperFindObjectResponse> _mapper;
+        private Mock<ILogger<FindObjectsCommand>> _logger;
         private IFindObjectsCommand _findObjectsCommand;
 
         private FindObjectFilter _request;
@@ -34,6 +36,7 @@ namespace ITExpertTestService.Business.UnitTests
         {
             _repository = new Mock<IObjectRepository>();
             _mapper = new Mock<IMapperFindObjectResponse>();
+            _logger = new Mock<ILogger<FindObjectsCommand>>();
             _httpContextAccessor = new HttpContextAccessor();
             _httpContextAccessor.HttpContext = new DefaultHttpContext();
 
@@ -41,6 +44,7 @@ namespace ITExpertTestService.Business.UnitTests
                 new FindObjectsCommand(
                 _repository.Object,
                 _mapper.Object,
+                _logger.Object,
                 _httpContextAccessor);
         }
 

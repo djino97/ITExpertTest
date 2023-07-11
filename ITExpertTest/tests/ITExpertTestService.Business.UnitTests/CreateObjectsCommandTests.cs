@@ -7,6 +7,7 @@ using ITExpertTestService.Models.Db;
 using ITExpertTestService.Models.Dto.NewFolder;
 using ITExpertTestService.Models.Dto.Requests;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -21,6 +22,7 @@ namespace ITExpertTestService.Business.UnitTests
     {
         private Mock<IObjectRepository> _repository;
         private Mock<IMapperCreateObjectRequest> _mapper;
+        private Mock<ILogger<CreateObjectsCommand>> _logger;
         private ICreateObjectsCommand _createObjectsCommand;
 
         private CreateObjectsRequest _request;
@@ -35,12 +37,14 @@ namespace ITExpertTestService.Business.UnitTests
             _repository = new Mock<IObjectRepository>();
             _mapper = new Mock<IMapperCreateObjectRequest>();
             _httpContextAccessor = new HttpContextAccessor();
+            _logger = new Mock<ILogger<CreateObjectsCommand>>();
             _httpContextAccessor.HttpContext = new DefaultHttpContext();
 
             _createObjectsCommand =
                 new CreateObjectsCommand(
                 _repository.Object,
                 _mapper.Object,
+                _logger.Object,
                 _httpContextAccessor);
         }
 

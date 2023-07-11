@@ -6,6 +6,7 @@ using ITExpertTestService.Models.Db;
 using ITExpertTestService.Models.Dto.NewFolder;
 using ITExpertTestService.Models.Dto.Requests;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace ITExpertTest.Business.Commands
         private readonly IMapperCreateObjectRequest _mapper;
         private readonly IObjectRepository _repository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<CreateObjectsCommand> _logger;
 
         private void ValidateRequest(CreateObjectsRequest request, List<string> errors)
         {
@@ -31,9 +33,11 @@ namespace ITExpertTest.Business.Commands
         public CreateObjectsCommand(
             IObjectRepository repository,
             IMapperCreateObjectRequest mapper,
+            ILogger<CreateObjectsCommand> logger,
             IHttpContextAccessor httpContextAccessor)
         {
             _mapper = mapper;
+            _logger = logger;
             _repository = repository;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -65,6 +69,9 @@ namespace ITExpertTest.Business.Commands
             }
             catch (Exception exc)
             {
+                string loggerMessage = "Exception message: {0}. Number of objects in the request: {1}";
+                _logger.LogError(exc, loggerMessage, exc.Message, request.Objects.Count());
+
                 errors.Add("Something went wrong. Please try again later.");
                 _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status503ServiceUnavailable;
             }
