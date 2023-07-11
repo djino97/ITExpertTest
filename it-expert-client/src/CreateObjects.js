@@ -80,8 +80,8 @@ export function CreateObjects(){
             </div>
             
             <div className='button-bar'>
-                <Button variant="primary" onClick={() => addObject(objectRequest)}>Add object</Button>
-                <Button variant="success" onClick={() => setCreateObjectFlag(true)}>Create objects</Button>
+                <Button variant="primary" onClick={() => addObject(objectRequest)}>Add objects in request</Button>
+                <Button variant="success" onClick={() => setCreateObjectFlag(true)}>Send objects</Button>
             </div>
 
             <div>
