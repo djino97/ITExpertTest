@@ -20,8 +20,7 @@ export function ObjectsRendering() {
 
     return () => {
         setDataFetched(true);
-    }
-    }, [currentPage]);
+    }}, [currentPage]);
 
     function handleClick(number) {
         setDataFetched(false);

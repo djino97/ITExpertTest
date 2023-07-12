@@ -18,3 +18,11 @@
 .input-form {
     width: 300px;
 }
+
+.error {
+    color:rgb(189, 8, 8)
+}
+
+.success {
+    color: green;
+}

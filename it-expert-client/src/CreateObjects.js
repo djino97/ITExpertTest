@@ -10,13 +10,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
 export function CreateObjects(){
     const[objectRequest, setObject] = useState(new ObjectRequest());
     const[objects, setObjects] = useState([]);
+    const[error, setError] = useState(null)
     const[isCreateObjects, setCreateObjectFlag] = useState(false);
     const[serialNumbers, setSerialNumbers] = useState(null);
 
     useEffect(() => {
         let client = new Client(appConfig.serviceUrl);
         if (isCreateObjects) {
-            let request = new CreateObjectsRequest()
+            let request = new CreateObjectsRequest();
             request.objects = objects.map(element => 
                 new ObjectRequest(
                     {
@@ -24,38 +25,50 @@ export function CreateObjects(){
                         value: element.value
                     }));
             client.create(request)
-            .then(m => setSerialNumbers(m.result))
+            .then(m => {
+                setSerialNumbers(m.result); 
+                setError(m.error);
+            })
             .catch(e => console.error(e));
-        }
+        };
 
     return () => {
         setCreateObjectFlag(false);
-    }
-    }, [isCreateObjects]);
+    }}, [isCreateObjects]);
 
     function modelFilling(value, property) {
         if (property === "code") {
-            setObject({code: value, value: objectRequest.value})
+            if (value.length === 0 || (!value && isNaN(value))) {
+                setObject({code: value, value: objectRequest.value});
+            };
+
+            value = parseInt(value);
+            if (isNaN(value)) {
+                setError("Code must be a number.")
+                return; 
+            };
+            
+            setError(null);
+            setObject({code: value, value: objectRequest.value});
         }
 
         if (property === "value") {
-            setObject({code: objectRequest.code, value: value})
+            setObject({code: objectRequest.code, value: value});
         }
     };
 
     function addObject(objectRequest) {
-
         setObjects([
             ...objects,
             objectRequest
-        ])
-    }
+        ]);
+    };
 
     let addedObjects = objects?.map((element, index) => 
         <div className='item' key={index}>
             <p>Code: {element.code}</p>
             <p>Value: {element.value}</p>
-        </div>)
+        </div>);
 
     return(
         <div className='create-objects'>
@@ -64,7 +77,7 @@ export function CreateObjects(){
                 <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">Code</InputGroup.Text>
                     <Form.Control
-                        value={objectRequest.code} onChange={e => modelFilling(e.target.value, "code")}
+                        onChange={e => modelFilling(e.target.value, "code")}
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                     />
@@ -72,7 +85,7 @@ export function CreateObjects(){
                 <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm" >Value</InputGroup.Text>
                     <Form.Control
-                    value={objectRequest.value} onChange={e => modelFilling(e.target.value, "value")}
+                        onChange={e => modelFilling(e.target.value, "value")}
                         aria-label="Small"
                         aria-describedby="inputGroup-sizing-sm"
                     />
@@ -80,13 +93,14 @@ export function CreateObjects(){
             </div>
             
             <div className='button-bar'>
-                <Button variant="primary" onClick={() => addObject(objectRequest)}>Add object</Button>
-                <Button variant="success" onClick={() => setCreateObjectFlag(true)}>Create objects</Button>
+                <Button variant="primary" onClick={() => addObject(objectRequest)}>Add objects in request</Button>
+                <Button variant="success" onClick={() => setCreateObjectFlag(true)}>Send objects</Button>
             </div>
-
+            {error ? <div className='error'>{error}</div> : null}
+            {serialNumbers?.length > 0 ? <div className='success'>Successful send to server.</div> : null}
             <div>
                 <p>Added models</p>
-                    {addedObjects}
+                {addedObjects}
             </div>
         </div>
     )
